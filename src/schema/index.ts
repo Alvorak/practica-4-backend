@@ -1,66 +1,175 @@
+
 export const typeDefs = `#graphql
 
-    type Cast {
-        _id: ID!
-        name: String!,
-        sex: String!,
-        roles: [String!]!
-    }
+  type AlumnoT {
 
-    type Pelicula {
-        _id: ID!,
-        name: String!,
-        director: String!,
-        runtime: Int!,
-        year: Int!,
-        recordingFormat: [String!]!,
-        cast: [Cast!]!
-    }
+    _id: ID!
 
-    input CastInput {
-        name: String!,
-        sex: String!,
-        roles: [String!]!
-    }
+    nombre: String!
 
-    input CastPatchInput {
-        name: String,
-        sex: String,
-        roles: [String!]
-    }
+    edad: Int!
 
-    input PeliculaInput {
-        name: String!,
-        director: String!,
-        runtime: Int!,
-        year: Int!,
-        recordingFormat: [String!]!,
-        cast: [ID!]!
-    }
+    email: String!
 
-    input PeliculaChangeInput {
-        name: String,
-        director: String,
-        runtime: Int,
-        year: Int,
-        recordingFormat: [String!],
-        cast: [ID!]
-    }
+    asignaturas: [AsignaturaT]
 
-    type Query {
-        peliculas: [Pelicula!]!
-        pelicula(id: ID!): Pelicula
-        peliculasPorDirector(director: String!): [Pelicula!]!
-        actores: [Cast!]!
-        actor(id: ID!): Cast
-    }
+  }
 
-    type Mutation {
-        crearPelicula(input: PeliculaInput!): Pelicula!
-        cambiarPelicula(id: ID!, input: PeliculaChangeInput!): Pelicula
-        eliminarPelicula(id: ID!): Pelicula
-        crearActor(input: CastInput!): Cast!
-        cambiarActor(id: ID!, input: CastPatchInput!): Cast
-        eliminarActor(id: ID!): Cast
-    }
-`
+
+  type AsignaturaT {
+
+    _id: ID!
+
+    nombre: String!
+
+    creditos: Int!
+
+    curso: Int!
+
+    alumnos: [AlumnoT]
+
+  }
+
+
+
+  # =========================
+
+  # INPUT TYPES
+
+  # =========================
+
+
+  input AlumnoInput {
+
+    nombre: String!
+
+    edad: Int!
+
+    email: String!
+
+    asignaturas: [ID!]
+
+  }
+
+
+  input AlumnoUpdateInput {
+
+    nombre: String
+
+    edad: Int
+
+    email: String
+
+    asignaturas: [ID!]
+
+  }
+
+
+  input AsignaturaInput {
+
+    nombre: String!
+
+    creditos: Int!
+
+    curso: Int!
+
+    alumnos: [ID!]
+
+  }
+
+
+  input AsignaturaUpdateInput {
+
+    nombre: String
+
+    creditos: Int
+
+    curso: Int
+
+    alumnos: [ID!]
+
+  }
+
+
+  type Query {
+
+
+    # Alumnos
+
+    alumnos: [AlumnoT]
+
+    alumno(id: ID!): AlumnoT
+
+    alumnosPorEdad(edad: Int!): [AlumnoT]
+
+
+    # Asignaturas
+
+    asignaturas: [AsignaturaT]
+
+    asignatura(id: ID!): AsignaturaT
+
+    asignaturasPorCurso(curso: Int!): [AsignaturaT]
+
+
+    # Consultas relacionadas
+
+    alumnosPorAsignatura(asignaturaId: ID!): [AlumnoT]
+
+    asignaturasPorAlumno(alumnoId: ID!): [AsignaturaT]
+
+  }
+
+
+
+  # =========================
+
+  # MUTATIONS
+
+  # =========================
+
+
+  type Mutation {
+
+
+    # Alumnos
+
+    crearAlumno(input: AlumnoInput!): AlumnoT
+
+    actualizarAlumno(id: ID!, input: AlumnoUpdateInput!): AlumnoT
+
+    eliminarAlumno(id: ID!): AlumnoT
+
+
+    # Asignaturas
+
+    crearAsignatura(input: AsignaturaInput!): AsignaturaT
+
+    actualizarAsignatura(id: ID!, input: AsignaturaUpdateInput!): AsignaturaT
+
+    eliminarAsignatura(id: ID!): AsignaturaT
+
+
+    # Gestión de matrículas
+
+    matricularAlumno(
+
+      alumnoId: ID!
+
+      asignaturaId: ID!
+
+    ): AlumnoT
+
+
+    desmatricularAlumno(
+
+      alumnoId: ID!
+
+      asignaturaId: ID!
+
+    ): AlumnoT
+
+  }
+
+
+`;

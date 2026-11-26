@@ -1,32 +1,28 @@
 import { Collection, MongoClient } from "mongodb";
-import type { CastT, FilmT } from "../models/types.js";
+import type { AlumnoT, AsignaturaT } from "../models/types.js";
 
 
-const mongoUri = process.env.MONGODB_URI;
-if (!mongoUri) {
-    throw new Error("Falta configurar MONGODB_URI en el archivo .env");
-}
-
-const client = new MongoClient(mongoUri);
+const client = new MongoClient("mongodb+srv://FrankNFurter:4002@cluster0.2yp6ln1.mongodb.net/");
 
 
-let peliculasCollection: Collection<FilmT>;
-let actoresCollection: Collection<CastT>;
+let alumnosCollection: Collection<AlumnoT>;
+let asignaturasCollection: Collection<AsignaturaT>;
 
 export const connectDB = async () => {
     await client.connect();
 
-    const db = client.db(process.env.MONGODB_DB || "Vicio");
+    const db = client.db("Vicio");
 
-    peliculasCollection = db.collection<FilmT>("cine2");
-    actoresCollection = db.collection<CastT>("actores2");
+    alumnosCollection = db.collection<AlumnoT>("alumnos");
+    asignaturasCollection = db.collection<AsignaturaT>("asignaturas");
+
 
     console.log("Conectado al Mondongo")
 };
 
-export const getPeliculasCollection = () => {
-    return peliculasCollection
+export const getAlumnosCollection = () => {
+    return alumnosCollection
 }
-export const getActoresCollection = () => {
-    return actoresCollection
+export const getAsignaturasCollection = () => {
+    return asignaturasCollection
 }

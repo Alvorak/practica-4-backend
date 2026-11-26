@@ -1,33 +1,31 @@
 import type { ObjectId } from "mongodb";
 
-export type CastT = {
+export type AlumnoT = {
     _id?: ObjectId,
-    name: string,
-    sex: string,
-    roles: string[]
+    nombre: string,
+    edad: number,
+    email: string,
+    asignaturas: AsignaturaT[] | ObjectId[] | string[]
 }
 
-export type CastPatchT = {
-    name?: string,
-    sex?: string,
-    roles?: string[]
+export type AlumnoPatchT = {
+    nombre?: string,
+    edad?: number,
+    email?: string,
+    asignaturas?: AsignaturaT[] | ObjectId[] | string[]
 }
 
-export type FilmT = {
+export type AsignaturaT = {
     _id?: ObjectId,
-    name: string,
-    director: string,
-    runtime: number,
-    year: number,
-    recordingFormat: string[],
-    cast: CastT[] | ObjectId[] | string[]
+    nombre: string,
+    creditos: number,
+    curso: number,
+    alumnos: AlumnoT[] | ObjectId[] | string[]
 }
 
-export type FilmPatchT = {
-    name?: string,
-    director?: string,
-    runtime?: number,
-    year?: number,
-    recordingFormat?: string[],
-    cast?: CastT[] | ObjectId[] | string[]
+export type AsignaturaPatchT = {
+    nombre?: string,
+    creditos?: number,
+    curso?: number,
+    alumnos?: AlumnoT[] | ObjectId[] | string[]
 }
